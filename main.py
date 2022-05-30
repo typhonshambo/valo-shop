@@ -9,17 +9,12 @@ import os
 import asyncpg
 from asyncpg.pool import create_pool
 
-#try:
-# token = os.environ.get('token')
-# prefix = os.environ.get('prefix')
-# database_url = os.environ.get('database_url')
+
+token = os.environ.get('token')
+prefix = os.environ.get('prefix')
+database_url = os.environ.get('database_url')
  
-#except: 
-with open ('config/config.json', 'r') as f:
-    config = json.load(f)
-    token = config['token']
-    prefix = config['prefix']
-    database_url = config['DATABASE_URL']
+
 
 
 
