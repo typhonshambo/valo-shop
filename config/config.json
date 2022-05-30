@@ -1,6 +1,5 @@
 {
     "token" : "",
     "prefix" : "",
-    "DATABASE_URL" : "Postgres_Database_Url_here",
-    "guilds":[]
+    "DATABASE_URL" : "Postgres_Database_Url_here"
 }

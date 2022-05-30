@@ -5,15 +5,13 @@ import requests
 from .utils.shopData import *
 import json
 
-with open ('././config/config.json', 'r') as f:
-	data = json.load(f)
-	guilds = data['guilds']
+
 
 class LOGIN(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@commands.slash_command(description="Link to your Valorant account", guild_ids=guilds)
+	@commands.slash_command(description="Link to your Valorant account")
 	async def login(
 		self,
 		ctx,

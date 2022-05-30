@@ -3,9 +3,7 @@ from discord.ext import commands
 import json 
 from .utils.shopData import username_to_data,getVersion,priceconvert,skins,check_item_shop
 
-with open ('././config/config.json', 'r') as f:
-	data = json.load(f)
-	guilds = data['guilds']
+
 
 
 class itemshop(commands.Cog):
@@ -13,7 +11,7 @@ class itemshop(commands.Cog):
 		self.client = client
 
 
-	@commands.slash_command(description="Get your Valorant Shop", guild_ids=guilds)
+	@commands.slash_command(description="Get your Valorant Shop")
 	async def shop(
 		self,
 		ctx
