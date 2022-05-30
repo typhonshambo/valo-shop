@@ -1,3 +1,4 @@
 asyncpg
 py-cord==2.0.0b5
 urllib3
+requests
