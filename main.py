@@ -12,7 +12,7 @@ from asyncpg.pool import create_pool
 
 token = os.environ.get('token')
 prefix = os.environ.get('prefix')
-database_url = os.environ.get('database_url')
+database_url = os.environ.get('DATABASE_URL')
  
 
 
