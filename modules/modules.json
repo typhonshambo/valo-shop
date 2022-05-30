@@ -1,0 +1,7 @@
+{
+    "slashExtension":[
+        "commands.commands.login",
+        "commands.commands.shop",
+        "commands.database.database"
+    ]
+}
