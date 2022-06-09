@@ -2,3 +2,4 @@ asyncpg
 py-cord==2.0.0rc1
 urllib3
 requests
+psutil
