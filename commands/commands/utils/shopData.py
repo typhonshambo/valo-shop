@@ -72,7 +72,6 @@ def username_to_data(username, password):
 
 		return [access_token, entitlements_token, user_id]
 
-#username_to_data("typhonshamboyt", "Shamboo9")
 
 def getVersion():
 	versionData = requests.get("https://valorant-api.com/v1/version")
