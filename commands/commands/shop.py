@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import json 
-from .utils.shopData import username_to_data,getVersion,priceconvert,skins,check_item_shop
+from .utils.shopData import getVersion,priceconvert,skins,check_item_shop
 
 with open ('././config/config.json', 'r') as f:
 	data = json.load(f)
