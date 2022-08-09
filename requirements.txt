@@ -3,3 +3,5 @@ py-cord==2.0.0rc1
 urllib3
 requests
 psutil
+nest_asyncio
+git+https://github.com/floxay/python-riot-auth.git
