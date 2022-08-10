@@ -23,6 +23,20 @@ def username_to_data(username, password):
 	
 	return [auth.access_token, auth.entitlements_token, auth.user_id, region]
 
+def userBalance(entitlements_token, access_token, user_id):
+	headers = {
+		'X-Riot-Entitlements-JWT': entitlements_token,
+		'Authorization': f'Bearer {access_token}',
+	}
+
+	r = requests.get(f'https://pd.na.a.pvp.net/store/v1/wallet/{user_id}', headers=headers)
+
+	balance_data = json.loads(r.text)
+
+	vp = balance_data["Balances"]["85ad13f7-3d1b-5128-9eb2-7cd8ee0b5741"]
+	rp = balance_data["Balances"]["e59aa87c-4cbf-517a-5983-6e81511be9b7"]
+	
+	return [vp, rp]
 
 
 def getVersion():

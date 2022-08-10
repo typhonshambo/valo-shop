@@ -3,6 +3,7 @@
         "commands.commands.login",
         "commands.commands.shop",
         "commands.commands.info",
+        "commands.commands.balance",
         "commands.database.database"
     ]
 }
