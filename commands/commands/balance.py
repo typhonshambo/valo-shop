@@ -39,7 +39,11 @@ class balance(commands.Cog):
 				await ctx.respond(embed=embed)
 
 		except:
-			pass
+			embed= discord.Embed(
+				color=discord.Color.red(),
+				description="> Login to continue, use `/login`"
+			)
+			await ctx.respond(embed=embed)
 
 def setup(client):
 	client.add_cog(balance(client))
