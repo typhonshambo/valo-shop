@@ -58,9 +58,10 @@ class itemshop(commands.Cog):
 					color=discord.Color.red(),
 					description="> Login to continue, use `/login`"
 				)
-				await ctx.respond(
-					embed=embed
-				)
+				view = discord.ui.View()
+				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
+				view.add_item(discord.ui.Button(label='Github', url='https://github.com/typhonshambo/valo-shop', style=discord.ButtonStyle.url, emoji=emojidata["github"]))
+				await ctx.respond(embed=embed, view=view)
 
 	
 		except:
@@ -68,9 +69,10 @@ class itemshop(commands.Cog):
 				color=discord.Color.red(),
 				description="> Login to continue, use `/login`"
 			)
-			await ctx.respond(
-				embed=embed
-			)
+			view = discord.ui.View()
+			view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
+			view.add_item(discord.ui.Button(label='Github', url='https://github.com/typhonshambo/valo-shop', style=discord.ButtonStyle.url, emoji=emojidata["github"]))
+			await ctx.respond(embed=embed, view=view)
 
 
 
