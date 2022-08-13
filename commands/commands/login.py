@@ -9,9 +9,6 @@ import nest_asyncio
 with open ('././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
 
-with open ('././config/config.json', 'r') as f:
-	data = json.load(f)
-	guilds = data['guilds']
 
 
 class LOGIN(commands.Cog):
