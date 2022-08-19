@@ -47,7 +47,11 @@ class itemshop(commands.Cog):
 					embed = discord.Embed(title=f"{skin_data['skin4_name']} costs {skin_data['skin4_price']}", color=0x00FC7E)
 					embed.set_image(url=skin_data["skin4_image"])
 					embed.set_footer(text=(f"Time Remaining : "+ str(skin_data['SingleItemOffersRemainingDurationInSeconds']) + skin_data['time_units']))
-					await ctx.send(embed=embed)
+					view = discord.ui.View()
+					view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
+					view.add_item(discord.ui.Button(label='Github', url='https://github.com/typhonshambo/valo-shop', style=discord.ButtonStyle.url, emoji=emojidata["github"]))
+					await ctx.send(embed=embed, view=view)
+
 				
 				except:
 					await ctx.respond("Loading complete!")
