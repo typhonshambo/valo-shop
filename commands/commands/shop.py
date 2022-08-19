@@ -4,7 +4,8 @@ import json
 from .utils.shopData import getVersion,priceconvert,skins,check_item_shop
 
 
-
+with open ('./././config/emoji.json', 'r') as f:
+	emojidata = json.load(f)
 
 class itemshop(commands.Cog):
 	def __init__(self, client):
