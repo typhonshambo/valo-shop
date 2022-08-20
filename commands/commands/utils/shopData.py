@@ -12,11 +12,11 @@ import riot_auth
 import asyncio
 import sys
 
-def username_to_data(username, password):
+async def username_to_data(username, password):
 	auth = riot_auth.RiotAuth()
 	CREDS = username, password
 
-	asyncio.run(auth.authorize(*CREDS))
+	await auth.authorize(*CREDS)
 	r = requests.get(f"https://api.henrikdev.xyz/valorant/v1/by-puuid/account/{auth.user_id}")
 	data = r.json()
 	region = data["data"]["region"]

@@ -4,7 +4,7 @@ from discord.commands import Option, slash_command
 import requests
 from .utils.shopData import *
 import json
-import nest_asyncio
+
 
 with open ('././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
@@ -23,13 +23,13 @@ class LOGIN(commands.Cog):
 		password: Option(str, "Enter your RIOT password", required=True)
 	):
 		await ctx.response.defer()
-		nest_asyncio.apply()
+		
 		try:
 			guild_id = str(ctx.guild.id)
 			author_id = str(ctx.author.id)
 			user = await self.bot.pg_con.fetchrow("SELECT * FROM shopDB WHERE user_id = $1", author_id)
 			
-			userData = username_to_data(username, password)
+			userData = await username_to_data(username, password)
 			if not user:
 				
 				await self.bot.pg_con.execute("INSERT INTO shopDB (guild_id, user_id, username, password, access_token, entitlements_token, ingameUserID, region) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", guild_id, author_id, username, password, userData[0], userData[1], userData[2], userData[3])
