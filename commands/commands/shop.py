@@ -3,8 +3,7 @@ from discord.ext import commands
 import json 
 from .utils.shopData import getVersion,priceconvert,skins,check_item_shop
 
-
-with open ('./././config/emoji.json', 'r') as f:
+with open ('././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
 
 class itemshop(commands.Cog):
@@ -34,16 +33,16 @@ class itemshop(commands.Cog):
 				embed.set_image(url=skin_data["bundle_image"])
 				await ctx.respond(embed=embed)
 				try:
-					embed = discord.Embed(title=f"{skin_data['skin1_name']} costs {skin_data['skin1_price']}", color=0x00FC7E)
+					embed = discord.Embed(title=f"{skin_data['skin1_name']}", description=f"> {emojidata['vp']} {skin_data['skin1_price']}",color=0x00FC7E)
 					embed.set_image(url=skin_data["skin1_image"])
 					await ctx.send(embed=embed)
-					embed = discord.Embed(title=f"{skin_data['skin2_name']} costs {skin_data['skin2_price']}", color=0x00FC7E)
+					embed = discord.Embed(title=f"{skin_data['skin2_name']}",  description=f"> {emojidata['vp']} {skin_data['skin2_price']}",color=0x00FC7E)
 					embed.set_image(url=skin_data["skin2_image"])
 					await ctx.send(embed=embed)
-					embed = discord.Embed(title=f"{skin_data['skin3_name']} costs {skin_data['skin3_price']}", color=0x00FC7E)
+					embed = discord.Embed(title=f"{skin_data['skin3_name']}", description=f"> {emojidata['vp']} {skin_data['skin3_price']}", color=0x00FC7E)
 					embed.set_image(url=skin_data["skin3_image"])
 					await ctx.send(embed=embed)
-					embed = discord.Embed(title=f"{skin_data['skin4_name']} costs {skin_data['skin4_price']}", color=0x00FC7E)
+					embed = discord.Embed(title=f"{skin_data['skin4_name']}", description=f"> {emojidata['vp']} {skin_data['skin4_price']}", color=0x00FC7E)
 					embed.set_image(url=skin_data["skin4_image"])
 					embed.set_footer(text=(f"Time Remaining : "+ str(skin_data['SingleItemOffersRemainingDurationInSeconds']) + skin_data['time_units']))
 					view = discord.ui.View()
