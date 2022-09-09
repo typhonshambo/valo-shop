@@ -24,7 +24,7 @@ class LOGIN(commands.Cog):
 		username: Option(str, "Enter your RIOT username", required=True),
 		password: Option(str, "Enter your RIOT password", required=True)
 	):
-		await ctx.response.defer()
+		await ctx.response.defer(ephemeral=True)
 		
 		try:
 			guild_id = str(ctx.guild.id)
@@ -42,7 +42,7 @@ class LOGIN(commands.Cog):
 				view = discord.ui.View()
 				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
 				view.add_item(discord.ui.Button(label='Github', url='https://github.com/typhonshambo/valo-shop', style=discord.ButtonStyle.url, emoji=emojidata["github"]))
-				await ctx.respond(embed=embed, view=view)
+				await ctx.respond(embed=embed, view=view, ephemeral=True)
 			
 			if user:
 				await self.bot.pg_con.execute("UPDATE shopDB SET username = $1, password = $2, region=$3, access_token=$4, entitlements_token=$5, ingameUserID=$6 WHERE user_id = $7",username, password, userData[3], userData[0], userData[1], userData[2],author_id)
