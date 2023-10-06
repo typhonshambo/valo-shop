@@ -7,12 +7,17 @@ from urllib3 import PoolManager
 import ssl
 import socket
 
-#test
-import riot_auth
+#importing RIOT_AUTO BY FLOXAY 
+#pip install git+https://github.com/floxay/python-riot-auth.git
+from riot_auth import RiotAuth
 import asyncio
 import sys
 
+#adding latest riot user agent
+RiotAuth.RIOT_CLIENT_USER_AGENT = "RiotClient/73.0.3.497.1534 %s (Windows;10;;Professional, x64)"
+
 async def username_to_data(username, password):
+  
 	auth = riot_auth.RiotAuth()
 	CREDS = username, password
 
@@ -23,13 +28,13 @@ async def username_to_data(username, password):
 	
 	return [auth.access_token, auth.entitlements_token, auth.user_id, region]
 
-def userBalance(entitlements_token, access_token, user_id):
+def userBalance(entitlements_token, access_token, user_id, region):
 	headers = {
 		'X-Riot-Entitlements-JWT': entitlements_token,
 		'Authorization': f'Bearer {access_token}',
 	}
 
-	r = requests.get(f'https://pd.na.a.pvp.net/store/v1/wallet/{user_id}', headers=headers)
+	r = requests.get(f'https://pd.{region}.a.pvp.net/store/v1/wallet/{user_id}', headers=headers)
 
 	balance_data = json.loads(r.text)
 
