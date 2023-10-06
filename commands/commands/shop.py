@@ -3,9 +3,7 @@ from discord.ext import commands
 import json 
 from .utils.shopData import getVersion,priceconvert,skins,check_item_shop
 
-with open ('././config/config.json', 'r') as f:
-	data = json.load(f)
-	guilds = data['guilds']
+
 
 with open ('././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
@@ -15,7 +13,7 @@ class itemshop(commands.Cog):
 		self.client = client
 
 
-	@commands.slash_command(description="Get your Valorant Shop", guild_ids=guilds)
+	@commands.slash_command(description="Get your Valorant Shop")
 	async def shop(
 		self,
 		ctx
@@ -51,7 +49,7 @@ class itemshop(commands.Cog):
 					embed.set_footer(text=(f"Time Remaining : "+ str(skin_data['SingleItemOffersRemainingDurationInSeconds']) + skin_data['time_units']))
 					view = discord.ui.View()
 					view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-					view.add_item(discord.ui.Button(label='Github', url='https://github.com/typhonshambo/valo-shop', style=discord.ButtonStyle.url, emoji=emojidata["github"]))
+					view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
 					await ctx.send(embed=embed, view=view)
 
 				
@@ -66,7 +64,7 @@ class itemshop(commands.Cog):
 				)
 				view = discord.ui.View()
 				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-				view.add_item(discord.ui.Button(label='Github', url='https://github.com/typhonshambo/valo-shop', style=discord.ButtonStyle.url, emoji=emojidata["github"]))
+				view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
 				await ctx.respond(embed=embed, view=view)
 
 	
@@ -77,7 +75,7 @@ class itemshop(commands.Cog):
 			)
 			view = discord.ui.View()
 			view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-			view.add_item(discord.ui.Button(label='Github', url='https://github.com/typhonshambo/valo-shop', style=discord.ButtonStyle.url, emoji=emojidata["github"]))
+			view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
 			await ctx.respond(embed=embed, view=view)
 
 
