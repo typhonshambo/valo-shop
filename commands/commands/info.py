@@ -25,6 +25,9 @@ class slash_botInfo(commands.Cog):
 		storageEmote = emojidata["storage"]
 		pythonEmote = emojidata["python"]
 		codeEmote = emojidata["code"]
+		supportEmote = emojidata["support"]
+
+		servercount = str(len(self.bot.guilds))
 
 		await ctx.response.defer()
 		
@@ -36,6 +39,7 @@ class slash_botInfo(commands.Cog):
 			> {cpuEmote} `CPU` -  {psutil.cpu_percent()}%
 			> {storageEmote} `Storage` - {psutil.disk_usage('/')[3]}%
 			> {ramEmote} `RAM` - {psutil.virtual_memory()[2]}%
+			> {supportEmote} `Server Count` - {servercount}
 			"""
 		)
 		await ctx.respond(embed=embed)
