@@ -1,0 +1,7 @@
+asyncpg
+py-cord
+urllib3
+requests
+psutil
+nest_asyncio
+git+https://github.com/floxay/python-riot-auth.git
