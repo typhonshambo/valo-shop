@@ -14,7 +14,7 @@ import asyncio
 import sys
 
 #adding latest riot user agent
-RiotAuth.RIOT_CLIENT_USER_AGENT = "RiotClient/73.0.3.497.1534 %s (Windows;10;;Professional, x64)"
+RiotAuth.RIOT_CLIENT_USER_AGENT = "RiotClient/77.0.1.814.2013 %s (Windows;10;;Professional, x64)"
 
 async def username_to_data(username, password):
   
