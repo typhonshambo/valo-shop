@@ -26,13 +26,11 @@ with open ('config/config.json', 'r') as f:
 
 
 
-bot = commands.Bot() #defining bot prefix 
-
-bot.remove_command('help')
+bot = discord.Bot() #defining bot prefix 
 
 
 async def create_db_pool():
-    bot.pg_con = await asyncpg.create_pool(f"{database_url}")
+    bot.pg_con = await asyncpg.create_pool(f"{database_url}",max_size=4, min_size=1)
     print("[/]DATABASE     | Connected")
 
 
@@ -40,7 +38,7 @@ async def create_db_pool():
 async def on_ready():
     await bot.change_presence(
         status=discord.Status.idle, 
-        activity=discord.Activity(type=discord.ActivityType.watching, name=f"{prefix}help")
+        activity=discord.Activity(type=discord.ActivityType.watching, name=f"Your shop")
     )
     print("Bot online!")
 
