@@ -8,22 +8,25 @@ import os
 #for database
 import asyncpg
 from asyncpg.pool import create_pool
+import keep_alive
 
 #try:
-# token = os.environ.get('token')
-# prefix = os.environ.get('prefix')
-# database_url = os.environ.get('database_url')
+token = os.environ.get('token')
+database_url = os.environ.get('database_url')
  
 #except: 
+'''
 with open ('config/config.json', 'r') as f:
     config = json.load(f)
     token = config['token']
     prefix = config['prefix']
     database_url = config['DATABASE_URL']
+'''
 
 
 
-bot = commands.Bot(command_prefix=f'{prefix}') #defining bot prefix 
+
+bot = commands.Bot() #defining bot prefix 
 
 bot.remove_command('help')
 
@@ -58,4 +61,5 @@ if __name__ == "__main__":
             traceback.print_exc()
 
 bot.loop.run_until_complete(create_db_pool())
+keep_alive.keep_alive()
 bot.run(f"{token}")
