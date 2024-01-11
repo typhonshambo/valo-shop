@@ -1,4 +1,4 @@
-<center><img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=VALO SHOP BOT&fontSize=80&fontAlignY=35&animation=twinkling&fontColor=gradient" /></center>
+<center><img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=VALO-SHOP-BOT&fontSize=80&fontAlignY=35&animation=twinkling&fontColor=gradient" /></center>
 
 # 🔗| INVITE THE BOT
 a ready made bot is already being hosted to test out! 
