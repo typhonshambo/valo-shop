@@ -9,7 +9,7 @@ import socket
 
 #importing RIOT_AUTO BY FLOXAY 
 #pip install git+https://github.com/floxay/python-riot-auth.git
-from riot_auth import RiotAuth
+from .riot_auth import RiotAuth
 import asyncio
 import sys
 
