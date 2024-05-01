@@ -1,6 +1,6 @@
 {
     "token" : "",
     "prefix" : "",
-    "DATABASE_URL" : "Postgres_Database_Url_here",
-    "guilds":[864779702554984458]
+    "DATABASE_URL" : "DATABASE_URL",
+    "donation_url":"PAYPAL_PAYMENT_URL"
 }
