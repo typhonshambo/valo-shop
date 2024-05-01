@@ -7,9 +7,8 @@ from urllib3 import PoolManager
 import ssl
 import socket
 
-#importing RIOT_AUTO BY FLOXAY 
-#pip install git+https://github.com/floxay/python-riot-auth.git
-from .riot_auth import RiotAuth
+import riot_auth
+from riot_auth import RiotAuth
 import asyncio
 import sys
 
@@ -25,13 +24,17 @@ async def username_to_data(username, password):
 	r = requests.get(f"https://api.henrikdev.xyz/valorant/v1/by-puuid/account/{auth.user_id}")
 	data = r.json()
 	region = data["data"]["region"]
-	
+
 	return [auth.access_token, auth.entitlements_token, auth.user_id, region]
+
 
 def userBalance(entitlements_token, access_token, user_id, region):
 	headers = {
+
 		'X-Riot-Entitlements-JWT': entitlements_token,
 		'Authorization': f'Bearer {access_token}',
+		'X-Riot-ClientVersion': getVersion(),
+		"X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"
 	}
 
 	r = requests.get(f'https://pd.{region}.a.pvp.net/store/v1/wallet/{user_id}', headers=headers)
@@ -45,7 +48,7 @@ def userBalance(entitlements_token, access_token, user_id, region):
 
 
 def getVersion():
-	versionData = requests.get("https://valorant-api.com/v1/version")
+	versionData = requests.get("https://valorant-api.com/v1/version", verify=False)
 	versionDataJson = versionData.json()['data']
 	final = f"{versionDataJson['branch']}-shipping-{versionDataJson['buildVersion']}-{versionDataJson['version'][-6:]}"
 	return final
@@ -62,24 +65,16 @@ def skins(entitlements_token, access_token, user_id, region):
 	headers = {
 		'X-Riot-Entitlements-JWT': entitlements_token,
 		'Authorization': f'Bearer {access_token}',
+		'X-Riot-ClientVersion': getVersion(),
+		'X-Riot-ClientPlatform' : 'ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9'
 	}
 
 	r = requests.get(f'https://pd.{region}.a.pvp.net/store/v2/storefront/{user_id}', headers=headers)
 
 	skins_data = json.loads(r.text)
-
 	single_skins = skins_data['SkinsPanelLayout']["SingleItemOffers"]
 
-
-	headers = {
-		'X-Riot-Entitlements-JWT': entitlements_token,
-		'Authorization': f'Bearer {access_token}',
-		'X-Riot-ClientVersion': getVersion(),
-		"X-Riot-ClientPlatform": "ew0KCSJwbGF0Zm9ybVR5cGUiOiAiUEMiLA0KCSJwbGF0Zm9ybU9TIjogIldpbmRvd3MiLA0KCSJwbGF0Zm9ybU9TVmVyc2lvbiI6ICIxMC4wLjE5MDQyLjEuMjU2LjY0Yml0IiwNCgkicGxhdGZvcm1DaGlwc2V0IjogIlVua25vd24iDQp9"
-	}
-
 	r = requests.get(f'https://api.henrikdev.xyz/valorant/v1/content')
-
 	content_data = r.json()
 	
 
@@ -181,9 +176,8 @@ def skins(entitlements_token, access_token, user_id, region):
 	return skins_list
 
 
-
-def check_item_shop(username, password):
-	user_data = username_to_data(username, password)
+async def check_item_shop(username, password):
+	user_data = await username_to_data(username, password)
 	access_token = user_data[0]
 	entitlements_token = user_data[1]
 	user_id = user_data[2]

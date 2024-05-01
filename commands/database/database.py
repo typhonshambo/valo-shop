@@ -9,20 +9,26 @@ class database(commands.Cog):
 	async def on_ready(self):
 		print("[\] setting up DATABASE")
 		
-		#for leveling
-		await self.bot.pg_con.execute("""
-		CREATE TABLE IF NOT EXISTS shopDB
-		(
-			guild_id character varying,
-			user_id character varying NOT NULL,
-            username character varying,
-            password character varying,
-			region character varying,
-			access_token character varying,
-			entitlements_token character varying,
-			ingameuserid character varying
-		);
-		""")
+		#for shop
+		try:
+			await self.bot.pg_con.execute("""
+			CREATE TABLE IF NOT EXISTS shopDB
+			(
+				guild_id character varying,
+				user_id character varying NOT NULL,
+				username character varying,
+				password character varying,
+				region character varying,
+				access_token character varying,
+				entitlements_token character varying,
+				ingameuserid character varying
+			);
+			""")
+			
+		
+		except Exception as e:
+			print(e)
+
         
 
 		
