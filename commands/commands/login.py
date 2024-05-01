@@ -9,7 +9,8 @@ import json
 with open ('././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
 
-
+with open ('././config/config.json', 'r') as f:
+	configdata = json.load(f)
 
 class LOGIN(commands.Cog):
 	def __init__(self, bot):
@@ -19,12 +20,13 @@ class LOGIN(commands.Cog):
 	async def login(
 		self,
 		ctx,
-		username: Option(str, "Enter your RIOT username", required=True),
-		password: Option(str, "Enter your RIOT password", required=True)
+		username: Option(str, "Enter your RIOT username", required=True), # type: ignore
+		password: Option(str, "Enter your RIOT password", required=True) # type: ignore
 	):
 		await ctx.response.defer(ephemeral=True)
 		
 		try:
+			
 			guild_id = str(ctx.guild.id)
 			author_id = str(ctx.author.id)
 			user = await self.bot.pg_con.fetchrow("SELECT * FROM shopDB WHERE user_id = $1", author_id)
@@ -40,7 +42,7 @@ class LOGIN(commands.Cog):
 				embed.set_footer(text=("After 1 hr you need to login again!"))
 				view = discord.ui.View()
 				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-				view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+				view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 				await ctx.respond(embed=embed, view=view, ephemeral=True)
 			
 			if user:
@@ -54,16 +56,18 @@ class LOGIN(commands.Cog):
 
 				view = discord.ui.View()
 				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-				view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+				view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 				await ctx.respond(embed=embed, view=view)
-		except:
+
+		except Exception as e:
+			print(e)
 			embed= discord.Embed(
 				color=discord.Color.red(),
 				description="> Wrong Username or Password provided!"
 			)
 			view = discord.ui.View()
 			view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-			view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+			view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 			await ctx.respond(embed=embed, view=view)
 
 	@commands.slash_command(description="Unlink to your Valorant account")
@@ -83,7 +87,7 @@ class LOGIN(commands.Cog):
 				)
 				view = discord.ui.View()
 				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-				view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+				view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 				await ctx.respond(embed=embed, view=view)
 			if user:
 				await self.bot.pg_con.fetchval(
@@ -102,7 +106,7 @@ class LOGIN(commands.Cog):
 			)
 			view = discord.ui.View()
 			view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-			view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+			view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 			await ctx.respond(embed=embed, view=view)
 
 

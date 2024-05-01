@@ -9,7 +9,8 @@ import requests
 with open ('./././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
 
-
+with open ('././config/config.json', 'r') as f:
+	configdata = json.load(f)
 
 class slash_botInfo(commands.Cog):
 	def __init__(self, bot):

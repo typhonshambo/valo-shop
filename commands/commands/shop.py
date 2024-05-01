@@ -8,6 +8,9 @@ from .utils.shopData import getVersion,priceconvert,skins,check_item_shop
 with open ('././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
 
+with open ('././config/config.json', 'r') as f:
+	configdata = json.load(f)
+
 class itemshop(commands.Cog):
 	def __init__(self, client):
 		self.client = client
@@ -23,7 +26,7 @@ class itemshop(commands.Cog):
 			await ctx.response.defer()
 			author_id = str(ctx.author.id)
 			user = await self.client.pg_con.fetchrow("SELECT * FROM shopDB WHERE user_id = $1", author_id)
-			
+		
 			if user:
 				entitlements_token = user["entitlements_token"]
 				access_token = user["access_token"]
@@ -49,11 +52,12 @@ class itemshop(commands.Cog):
 					embed.set_footer(text=(f"Time Remaining : "+ str(skin_data['SingleItemOffersRemainingDurationInSeconds']) + skin_data['time_units']))
 					view = discord.ui.View()
 					view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-					view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+					view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 					await ctx.send(embed=embed, view=view)
 
-				
-				except:
+
+				except Exception as e:
+					print(e)
 					await ctx.respond("Loading complete!")
 					pass
 			
@@ -64,18 +68,19 @@ class itemshop(commands.Cog):
 				)
 				view = discord.ui.View()
 				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-				view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+				view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 				await ctx.respond(embed=embed, view=view)
 
 	
-		except:
+		except Exception as e:
+			print(e)
 			embed= discord.Embed(
 				color=discord.Color.red(),
 				description="> Login to continue, use `/login`"
 			)
 			view = discord.ui.View()
 			view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-			view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+			view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 			await ctx.respond(embed=embed, view=view)
 
 

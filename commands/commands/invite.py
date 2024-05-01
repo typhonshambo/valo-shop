@@ -7,6 +7,9 @@ import json
 with open ('././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
 
+with open ('././config/config.json', 'r') as f:
+	configdata = json.load(f)
+
 
 class INVITE(commands.Cog):
 	def __init__(self, bot):
@@ -25,7 +28,7 @@ class INVITE(commands.Cog):
 		)
 		view = discord.ui.View()
 		view.add_item(discord.ui.Button(label='Invite', url='https://discord.com/api/oauth2/authorize?client_id=980918916211695717&permissions=139586816064&scope=bot%20applications.commands', style=discord.ButtonStyle.url, emoji=emojidata["invite"]))
-		view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+		view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 		await ctx.respond(embed=embed, view=view)
 		
 	

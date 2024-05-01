@@ -6,6 +6,9 @@ from .utils.shopData import userBalance
 with open ('./././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
 
+with open ('././config/config.json', 'r') as f:
+	configdata = json.load(f)
+
 class balance(commands.Cog):
 	def __init__(self, client):
 		self.client = client
@@ -40,7 +43,7 @@ class balance(commands.Cog):
 				)
 				view = discord.ui.View()
 				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
-				view.add_item(discord.ui.Button(label='Donation', url='https://upilinks.in/payment-link/upi1049540315', style=discord.ButtonStyle.url, emoji='💰'))
+				view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
 				await ctx.respond(embed=embed, view=view)
 			
 			else:
