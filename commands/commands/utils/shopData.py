@@ -21,10 +21,17 @@ async def username_to_data(username, password):
 	CREDS = username, password
 
 	await auth.authorize(*CREDS)
-	r = requests.get(f"https://api.henrikdev.xyz/valorant/v1/by-puuid/account/{auth.user_id}")
+	header = {
+		"Authorization" : "Bearer " + auth.access_token
+	}
+	data = {
+		"id_token": auth.id_token
+	}
+	
+	r = requests.put(f"https://riot-geo.pas.si.riotgames.com/pas/v1/product/valorant", headers=header, json=data)
 	data = r.json()
-	region = data["data"]["region"]
-
+	region = data['affinities']['live']
+	
 	return [auth.access_token, auth.entitlements_token, auth.user_id, region]
 
 
@@ -48,7 +55,7 @@ def userBalance(entitlements_token, access_token, user_id, region):
 
 
 def getVersion():
-	versionData = requests.get("https://valorant-api.com/v1/version", verify=False)
+	versionData = requests.get("https://valorant-api.com/v1/version",verify=False)
 	versionDataJson = versionData.json()['data']
 	final = f"{versionDataJson['branch']}-shipping-{versionDataJson['buildVersion']}-{versionDataJson['version'][-6:]}"
 	return final
@@ -77,8 +84,6 @@ def skins(entitlements_token, access_token, user_id, region):
 	r = requests.get(f'https://api.henrikdev.xyz/valorant/v1/content')
 	content_data = r.json()
 	
-
-
 
 	single_skins_images = []
 	single_skins_tiers_uuids = []
