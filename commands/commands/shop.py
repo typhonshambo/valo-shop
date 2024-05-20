@@ -1,9 +1,14 @@
 import discord
 from discord.ext import commands
 import json 
-from .utils.shopData import getVersion,priceconvert,skins,check_item_shop
+from .utils.shopData import skins
 
+#logger
+from commands.ready.logging_config import setup_logging
+logger = setup_logging()
 
+#for database  
+from commands.database.databaseCommands import fetch_user_data
 
 with open ('././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
@@ -17,6 +22,7 @@ class itemshop(commands.Cog):
 
 
 	@commands.slash_command(description="Get your Valorant Shop")
+	@commands.cooldown(2, 3600, commands.BucketType.user)
 	async def shop(
 		self,
 		ctx
@@ -25,7 +31,7 @@ class itemshop(commands.Cog):
 		try:
 			await ctx.response.defer()
 			author_id = str(ctx.author.id)
-			user = await self.client.pg_con.fetchrow("SELECT * FROM shopDB WHERE user_id = $1", author_id)
+			user = await fetch_user_data(self.client.pg_con, author_id)
 		
 			if user:
 				entitlements_token = user["entitlements_token"]
@@ -34,7 +40,7 @@ class itemshop(commands.Cog):
 				region = user["region"]
 
 				skin_data = skins(entitlements_token, access_token, user_id, region)
-				embed = discord.Embed(title=skin_data["bundle_name"], color=0x00FC7E)
+				embed = discord.Embed(title=skin_data["bundle_name"], description=f"> {emojidata['vp']} {skin_data['bundle_price']}", color=0x00FC7E)
 				embed.set_image(url=skin_data["bundle_image"])
 				await ctx.respond(embed=embed)
 				try:
@@ -57,15 +63,17 @@ class itemshop(commands.Cog):
 
 
 				except Exception as e:
-					print(e)
+					logger.warning(f"Failed to load shop {ctx.author.id} : {e}")
 					await ctx.respond("Loading complete!")
 					pass
 			
 			else:
+				logger.error(f"Failed to load Creds {ctx.author.id} ")
 				embed= discord.Embed(
 					color=discord.Color.red(),
 					description="> Login to continue, use `/login`"
 				)
+				embed.set_footer(text=("Note : You can run command only 2 times in 1 hour"))
 				view = discord.ui.View()
 				view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
 				view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
@@ -73,11 +81,12 @@ class itemshop(commands.Cog):
 
 	
 		except Exception as e:
-			print(e)
+			logger.error(f"Failed to login {ctx.author.id} : {e}")
 			embed= discord.Embed(
 				color=discord.Color.red(),
 				description="> Login to continue, use `/login`"
 			)
+			embed.set_footer(text=("Note : You can run command only 2 times in 1 hour"))
 			view = discord.ui.View()
 			view.add_item(discord.ui.Button(label='Support Server', url='https://discord.gg/m5mSyTV7RR', style=discord.ButtonStyle.url, emoji=emojidata["support"]))
 			view.add_item(discord.ui.Button(label='Donation', url=configdata['donation_url'], style=discord.ButtonStyle.url, emoji='💰'))
@@ -88,5 +97,6 @@ class itemshop(commands.Cog):
 
 
 
+		
 def setup(client):
 	client.add_cog(itemshop(client))

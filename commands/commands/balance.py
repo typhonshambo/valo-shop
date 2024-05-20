@@ -3,6 +3,13 @@ from discord.ext import commands
 import json 
 from .utils.shopData import userBalance
 
+#logger
+from commands.ready.logging_config import setup_logging
+logger = setup_logging()
+
+#for database  
+from commands.database.databaseCommands import fetch_user_data
+
 with open ('./././config/emoji.json', 'r') as f:
 	emojidata = json.load(f)
 
@@ -15,6 +22,7 @@ class balance(commands.Cog):
 
 
 	@commands.slash_command(description="Get your Balance")
+	@commands.cooldown(2, 3600, commands.BucketType.user)
 	async def balance(
 		self,
 		ctx
@@ -25,7 +33,7 @@ class balance(commands.Cog):
 		try:
 			
 			author_id = str(ctx.author.id)
-			user = await self.client.pg_con.fetchrow("SELECT * FROM shopDB WHERE user_id = $1", author_id)
+			user = await fetch_user_data(self.client.pg_con, author_id)
 			
 			if user:
 				entitlements_token = user["entitlements_token"]
@@ -51,6 +59,7 @@ class balance(commands.Cog):
 					color=discord.Color.red(),
 					description="> Login to continue, use `/login`"
 				)
+				embed.set_footer(text=("Note : You can run this command only 2 times in 1 hr"))
 				await ctx.respond(embed=embed)
 					
 
@@ -59,6 +68,7 @@ class balance(commands.Cog):
 				color=discord.Color.red(),
 				description="> Login to continue, use `/login`"
 			)
+			embed.set_footer(text=("Note : You can run this command only 2 times in 1 hr"))
 			await ctx.respond(embed=embed)
 
 def setup(client):

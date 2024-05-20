@@ -1,5 +1,6 @@
 {
     "slashExtension":[
+        "commands.ready.cooldown_config",
         "commands.commands.login",
         "commands.commands.shop",
         "commands.commands.info",

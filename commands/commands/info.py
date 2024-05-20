@@ -17,6 +17,7 @@ class slash_botInfo(commands.Cog):
 		self.bot = bot
 
 	@commands.slash_command(guild_ids=[864779702554984458,556197206147727391],description="BOT info.")
+	@commands.cooldown(2, 10, commands.BucketType.user)
 	async def info(
 		self,
 		ctx
@@ -44,6 +45,12 @@ class slash_botInfo(commands.Cog):
 			"""
 		)
 		await ctx.respond(embed=embed)
+	
+
+
+
+
+
 
 def setup(bot):
 	bot.add_cog(slash_botInfo(bot))

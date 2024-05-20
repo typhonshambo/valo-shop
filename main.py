@@ -5,10 +5,12 @@ import sys
 import json 
 import os
 
-#for database
-import asyncpg
-from asyncpg.pool import create_pool
-import keep_alive
+#logging
+from commands.ready.logging_config import setup_logging
+logger = setup_logging()
+
+#for database  
+from commands.database.databaseCommands import create_pool
 
 #try:
 token = os.environ.get('token')
@@ -24,14 +26,14 @@ with open ('config/config.json', 'r') as f:
 '''
 
 
-
-
 bot = discord.Bot() #defining bot prefix 
 
+async def dbsetup():
+    # Create database connection pool
+    bot.pg_con = await create_pool(database_url)
 
-async def create_db_pool():
-    bot.pg_con = await asyncpg.create_pool(f"{database_url}",max_size=4, min_size=1)
-    print("[/]DATABASE     | Connected")
+    
+
 
 
 @bot.event
@@ -40,7 +42,7 @@ async def on_ready():
         status=discord.Status.idle, 
         activity=discord.Activity(type=discord.ActivityType.watching, name=f"Your shop")
     )
-    print("Bot online!")
+    logger.info("BOT Online!")
 
 
 
@@ -53,11 +55,11 @@ if __name__ == "__main__":
     for slashextensions in slashextension:
         try:
             bot.load_extension(slashextensions)
-            print(f"[/] loaded | {slashextensions}")
+            logger.info(f"[/] loaded | {slashextensions}")
         except:
-            print(f'Error loading {slashextensions}', file=sys.stderr)
+            logger.error(f'Error loading {slashextensions}')
             traceback.print_exc()
 
-bot.loop.run_until_complete(create_db_pool())
-keep_alive.keep_alive()
+bot.loop.run_until_complete(dbsetup())
+
 bot.run(f"{token}")
